@@ -42,6 +42,14 @@ const Button = styled.button`
   }
 `;
 
+const Error = styled.div`
+  background-color: red;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+`;
+
 const Form = () => {
   // States
   const [data, saveData] = useState({
@@ -49,6 +57,9 @@ const Form = () => {
     year: "",
     plan: "",
   });
+
+  // state 'error'
+  const [error, setError] = useState(false);
 
   // extract State values
   const { brand, year, plan } = data;
@@ -61,8 +72,21 @@ const Form = () => {
     });
   };
 
+  // When the user clicks on 'Go'
+
+  const goToCalculate = (e) => {
+    e.preventDefault();
+
+    if (brand.trim() === "" || year.trim() === "" || plan.trim() === "") {
+      setError(true);
+      return;
+    }
+    setError(false);
+  };
+
   return (
-    <form>
+    <form onSubmit={goToCalculate}>
+      {error ? <Error>All fields are required</Error> : null}
       <Field>
         <Label>Brand</Label>
         <Select name="brand" value={brand} onChange={getData}>
@@ -108,7 +132,7 @@ const Form = () => {
         />{" "}
         Premium
       </Field>
-      <Button type="button">Go</Button>
+      <Button type="submit">Go</Button>
     </form>
   );
 };
