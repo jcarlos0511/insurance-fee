@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { firstCapital } from "../helper";
+import PropTypes from "prop-types";
 
 const Container = styled.div`
   padding: 1rem;
@@ -28,5 +29,8 @@ const Summary = ({ data }) => {
       </ul>
     </Container>
   );
+};
+Summary.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 export default Summary;
