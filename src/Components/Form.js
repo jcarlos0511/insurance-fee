@@ -51,7 +51,7 @@ const Error = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Form = ({ saveSummary }) => {
+const Form = ({ saveSummary, setLoading }) => {
   // States
   const [data, saveData] = useState({
     brand: "",
@@ -97,19 +97,25 @@ const Form = ({ saveSummary }) => {
     // Asian 5%
     // European 30%
     result = calculateBrand(brand) * result;
-    console.log(result);
 
     // Basic increase 20%
     //Premium increase 50%
     const increasePlan = getPlan(plan);
     result = parseFloat(increasePlan * result).toFixed(2);
-    console.log(result);
 
-    //Save result
-    saveSummary({
-      quotation: result,
-      data,
-    });
+    //Show component 'Loading'
+    setLoading(true);
+
+    setTimeout(() => {
+      //Hide component 'Loading'
+      setLoading(false);
+
+      //Save result
+      saveSummary({
+        quotation: result,
+        data,
+      });
+    }, 3000);
   };
 
   return (

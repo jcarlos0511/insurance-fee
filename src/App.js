@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Header from "./Components/Header";
 import Form from "./Components/Form";
 import Summary from "./Components/Summary";
+import Result from "./Components/Result";
+import Loading from "./Components/Loading";
 
 import styled from "@emotion/styled";
 
@@ -26,15 +28,20 @@ function App() {
     },
   });
 
+  // Loading state
+  const [loading, setLoading] = useState(false);
+
   // Extracting data
-  const { data } = summary;
+  const { quotation, data } = summary;
 
   return (
     <Container>
       <Header title="Insurance Fee" />
       <ContainerForm>
-        <Form saveSummary={saveSummary} />
-        <Summary data={data} />
+        <Form saveSummary={saveSummary} setLoading={setLoading} />
+        {loading ? <Loading /> : null}
+        {!loading ? <Summary data={data} /> : null}
+        {!loading ? <Result quotation={quotation} /> : null}
       </ContainerForm>
     </Container>
   );
