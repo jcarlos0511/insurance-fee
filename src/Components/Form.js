@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import { getDifferenceYear, calculateBrand, getPlan } from "../helper";
 
 const Field = styled.div`
   display: flex;
@@ -50,7 +51,7 @@ const Error = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Form = () => {
+const Form = ({ saveSummary }) => {
   // States
   const [data, saveData] = useState({
     brand: "",
@@ -82,6 +83,33 @@ const Form = () => {
       return;
     }
     setError(false);
+
+    // Starting with a 2000 base
+    let result = 2000;
+
+    // Getting the difference of years
+    const difference = getDifferenceYear(year);
+
+    // 3% must be subtracted for each year
+    result -= (difference * 3 * result) / 100;
+
+    // American 15%
+    // Asian 5%
+    // European 30%
+    result = calculateBrand(brand) * result;
+    console.log(result);
+
+    // Basic increase 20%
+    //Premium increase 50%
+    const increasePlan = getPlan(plan);
+    result = parseFloat(increasePlan * result).toFixed(2);
+    console.log(result);
+
+    //Save result
+    saveSummary({
+      quotation: result,
+      data,
+    });
   };
 
   return (
@@ -101,6 +129,7 @@ const Form = () => {
         <Label>Year</Label>
         <Select name="year" value={year} onChange={getData}>
           <option value="">-- Select --</option>
+          <option value="2022">2022</option>
           <option value="2021">2021</option>
           <option value="2020">2020</option>
           <option value="2019">2019</option>

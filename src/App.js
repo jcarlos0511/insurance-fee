@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Components/Header";
 import Form from "./Components/Form";
+import Summary from "./Components/Summary";
 
 import styled from "@emotion/styled";
 
@@ -16,11 +17,24 @@ const ContainerForm = styled.div`
 `;
 
 function App() {
+  const [summary, saveSummary] = useState({
+    quotation: 0,
+    data: {
+      brand: "",
+      year: "",
+      plan: "",
+    },
+  });
+
+  // Extracting data
+  const { data } = summary;
+
   return (
     <Container>
       <Header title="Insurance Fee" />
       <ContainerForm>
-        <Form />
+        <Form saveSummary={saveSummary} />
+        <Summary data={data} />
       </ContainerForm>
     </Container>
   );
